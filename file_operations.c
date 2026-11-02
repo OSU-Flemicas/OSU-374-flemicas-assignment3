@@ -21,7 +21,7 @@ int check_file_exists(char **file_path){
 
 void make_directory(char **directory_name){
   srand(time(0)); 
-  sprintf(*directory_name, "flemicas.movie.%d", rand() % 99999);
+  sprintf(*directory_name, "flemicas.movies.%d", rand() % 99999);
   mkdir(*directory_name, 0750);
 }
 
