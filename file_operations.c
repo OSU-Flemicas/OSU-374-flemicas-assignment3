@@ -9,6 +9,7 @@
 #include "file_operations.h"
 
 int check_file_exists(char **file_path){
+  // this function is used to ensure files the user enters exist
   int check_file = open(*file_path, O_RDWR, 0600);
   if (check_file == -1){
     //file doesn't exist
@@ -20,17 +21,19 @@ int check_file_exists(char **file_path){
 }
 
 void make_directory(char **directory_name){
+  //this function generates a directory per the assignment requirements, it updates the value of the directory_name variable passed into it
   srand(time(0)); 
   sprintf(*directory_name, "flemicas.movies.%d", rand() % 99999);
   mkdir(*directory_name, 0750);
 }
 
 void make_file_path(char **file_path, char *directory_name, int year){
-    sprintf(*file_path, "./%s/%d.txt",  directory_name, year);
+  //this function generates a file path per the assignment requirements and updates the variable passed into it
+  sprintf(*file_path, "./%s/%d.txt",  directory_name, year);
 }
 
 void write_file(char* file_path, char *write_string){
-  //returns a string in the format: "/year.txt"
+  //this function accepts a file path and a string. It opens the file and writes the string at the end of the file
   int file_open = open(file_path, O_RDWR | O_CREAT, 0640);
   lseek(file_open, 0, SEEK_END);
   int file_write = write(file_open, write_string, strlen(write_string));
@@ -38,6 +41,7 @@ void write_file(char* file_path, char *write_string){
 }
 
 void find_file(char **file_path, lookup type){
+  //this function is used to find the largest or smallest file depending on the look up type. It updates the file_path variable passed into it
   DIR* directory;
   struct dirent *entry;
   struct stat entryStat;

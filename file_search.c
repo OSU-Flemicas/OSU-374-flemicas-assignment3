@@ -5,8 +5,9 @@
 
 void menu(void){
   /* this function is the core user loop*/
-  /* it provides 4 user options and processes the correct function/action based on that response*/
-  /* if the user enters an incorrect value, the user is informed and prompted again*/
+  /* the menu first asks the user if they want to process a file or exit*/
+  /* if the user chooses to process a file, a new menu is presented to the user */
+
   int outer_input = 0;
   int inner_intput = 0;
   do{
@@ -18,6 +19,7 @@ void menu(void){
     scanf("%d", &outer_input);
     switch(outer_input){
       case 1:
+        // sub menu that handles user choices regarding file processing 
         int break_loop = 0;
         do{
           printf("\n");
@@ -31,6 +33,7 @@ void menu(void){
               
           switch(inner_intput){
             case 1:
+              //largest file
               char *file_path_longest = malloc(1024*sizeof(char));                    
               find_file(&file_path_longest, LARGEST);
               processMovieFile(file_path_longest);
@@ -38,6 +41,7 @@ void menu(void){
               break_loop = 1;
               break;
             case 2:
+              //smallest file
               char *file_path_shortest = malloc(1024*sizeof(char)); 
               find_file(&file_path_shortest, SMALLEST);
               processMovieFile(file_path_shortest);
@@ -45,6 +49,7 @@ void menu(void){
               break_loop = 1;
               break;
             case 3:
+              //user chosen file
               char *user_file = malloc(1024*sizeof(char));
               printf("Enter the complete file name: ");
               scanf("%s", user_file);
@@ -80,5 +85,3 @@ int main(void) {
   return 0;
 }
 
-
-//gcc --std=gnu99 -o file_search *.c
