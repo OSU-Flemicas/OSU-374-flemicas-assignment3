@@ -42,7 +42,7 @@ void find_file(char **file_path, lookup type){
   struct dirent *entry;
   struct stat entryStat;
   char temp_file_path[500];
-  char directory_path[50] = "./movies_";
+  char directory_path[50] = "./";
   
   directory = opendir(directory_path);
 
