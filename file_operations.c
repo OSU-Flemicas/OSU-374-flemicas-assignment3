@@ -42,39 +42,31 @@ void find_file(char **file_path, lookup type){
   struct dirent *entry;
   struct stat entryStat;
   char temp_file_path[500];
-  char directory_path[50] = "./";
+  char directory_path[50] = ".";
+  long int largest_file = 0;
+  long int smallest_file = 99999;
   
   directory = opendir(directory_path);
 
- 
-  if (type == LARGEST){
-    long int largest_file = 0;
-    while((entry = readdir(directory)) != NULL){
-      if(entry->d_type == 8){
+  while((entry = readdir(directory)) != NULL){
+    if(entry->d_type == 8){
+      if(strstr(entry->d_name, "movies_") != NULL){
         sprintf(temp_file_path, "%s/%s", directory_path, entry->d_name);
         stat(temp_file_path, &entryStat);
-        if(entryStat.st_size > largest_file){
-          largest_file = entryStat.st_size;
-          sprintf(*file_path, "%s", temp_file_path);
-        }
-      }    
+        if (type == LARGEST){
+          if(entryStat.st_size > largest_file){
+            largest_file = entryStat.st_size;
+            sprintf(*file_path, "%s", temp_file_path);
+          }
+        }else if(type == SMALLEST){
+          if(entryStat.st_size < smallest_file){
+            smallest_file = entryStat.st_size;
+            sprintf(*file_path, "%s", temp_file_path);
+          }
+        }        
+      }
     }
-  }
-
-  if (type == SMALLEST){
-    long int smallest_file = 99999;
-    while((entry = readdir(directory)) != NULL){
-      if(entry->d_type == 8){
-        sprintf(temp_file_path, "%s/%s", directory_path, entry->d_name);
-        stat(temp_file_path, &entryStat);
-        if(entryStat.st_size < smallest_file){
-          smallest_file = entryStat.st_size;
-          sprintf(*file_path, "%s", temp_file_path);
-        }
-      }    
-    }
-  }
-
+  }   
   
   closedir(directory);
 }
